@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lea Tinoso</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
+<style>
+/* Layout: neo-brutalist retro. The name is the monument, split around a cartoon portrait; then a process strip, one live case file, and the name again as the footer. */
+:root {
+  --paper: #f4f4f0;     /* ground */
+  --ink: #111111;       /* text, borders, hard shadows */
+  --pink: #ff90e8;      /* primary field */
+  --sun: #ffc900;       /* accent, one action */
+  --mint: #23a094;      /* secondary field */
+  --card: #ffffff;      /* raised surfaces */
+  --soft: #4a4a46;      /* secondary text */
+  --display: "Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --body: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --border: 3px solid var(--ink);
+  --pop: 6px 6px 0 var(--ink);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #161614; --ink: #f4f4f0; --card: #22221f; --soft: #c9c9c2;
+  --pink: #ff90e8; --sun: #ffc900; --mint: #2fc2b3; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #161614; --ink: #f4f4f0; --card: #22221f; --soft: #c9c9c2;
+  --pink: #ff90e8; --sun: #ffc900; --mint: #2fc2b3; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; }
+a { color: inherit }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.inner { max-width: 1240px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--display); line-height: .95; letter-spacing: -0.03em; margin: 0; text-wrap: balance }
+h2 { font-size: clamp(36px, 5vw, 64px); font-weight: 800 }
+h3 { font-size: 26px; font-weight: 800 }
+p { margin: 0 }
+:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px }
+
+.btn { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border: var(--border);
+  background: var(--sun); color: #111; font: 700 17px/1 var(--body); text-decoration: none; border-radius: 999px;
+  box-shadow: 4px 4px 0 var(--ink); transition: transform .12s, box-shadow .12s; cursor: pointer }
+.btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink) }
+.btn:active { transform: translate(4px,4px); box-shadow: 0 0 0 var(--ink) }
+
+/* top bar */
+.bar { border-bottom: var(--border); background: var(--paper) }
+.bar .inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; flex-wrap: wrap; padding-block: 10px }
+.mark { font: 800 22px/1 var(--display); letter-spacing: -0.03em; text-decoration: none }
+.nav { display: flex; gap: 22px; flex-wrap: wrap; font-weight: 600 }
+.nav a { text-decoration: none; border-bottom: 2px solid transparent }
+.nav a:hover { border-color: var(--ink) }
+
+/* hero */
+.hero { background: var(--pink); border-bottom: var(--border); overflow: hidden; color: #111 }
+.hero .inner { position: relative; padding-block: 40px 56px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0 24px }
+.name { font: 800 clamp(64px, 13vw, 210px)/.82 var(--display); letter-spacing: -0.06em; }
+.name.first { justify-self: end; align-self: start; padding-top: 6vw }
+.name.last { justify-self: start; align-self: end; padding-bottom: 4vw }
+.portrait { display: block; width: clamp(220px, 26vw, 340px); aspect-ratio: 4/5; max-width: 100%; background: var(--sun); border: 3px solid #111;
+  border-radius: 999px 999px 24px 24px; box-shadow: 8px 8px 0 #111; position: relative }
+.portrait svg { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit }
+.sticker { position: absolute; right: -6px; top: 18%; transform: rotate(8deg); background: #fff; border: 3px solid #111;
+  border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: 14px; box-shadow: 3px 3px 0 #111; white-space: nowrap }
+.lede { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; margin-top: 40px }
+.lede p { font-size: clamp(20px, 2vw, 26px); line-height: 1.3; max-width: 34ch; font-weight: 600 }
+
+/* process */
+.process { padding-block: 96px }
+.process-head { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 48px; align-items: end; margin-bottom: 48px }
+.process-head p { color: var(--soft); max-width: 46ch }
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 20px; list-style: none; padding: 0; margin: 0; counter-reset: s }
+.step { border: var(--border); background: var(--card); box-shadow: var(--pop); padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0 }
+.step:nth-child(1) .verb { background: var(--pink) }
+.step:nth-child(2) .verb { background: var(--sun) }
+.step:nth-child(3) .verb { background: var(--mint); color: #fff }
+.step:nth-child(4) .verb { background: var(--ink); color: var(--paper) }
+.verb { align-self: flex-start; font: 800 clamp(30px, 3vw, 40px)/1 var(--display); letter-spacing: -0.04em; padding: 8px 14px 10px; border: var(--border); border-radius: 14px; color: #111 }
+.step .ask { font-size: 15px; color: var(--soft); border-top: 2px dashed var(--ink); padding-top: 12px; margin-top: auto }
+.step .ask b { color: var(--ink) }
+
+/* case file */
+.case { background: var(--sun); border-block: var(--border); padding-block: 96px; color: #111 }
+.case h2 { max-width: 16ch }
+.case-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 40px; margin-top: 40px; align-items: start }
+.case-intro { display: flex; flex-direction: column; gap: 16px; font-size: 18px }
+.tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: -3px; position: relative; z-index: 1 }
+.tab { font: 700 16px/1 var(--body); padding: 12px 18px; border: 3px solid #111; border-bottom: 0; border-radius: 14px 14px 0 0;
+  background: #fff8d6; color: #111; cursor: pointer }
+.tab[aria-selected="true"] { background: #fff; }
+.panel { background: #fff; border: 3px solid #111; box-shadow: 8px 8px 0 #111; padding: 26px; border-radius: 0 14px 14px 14px; min-height: 320px }
+.panel blockquote { margin: 0; font-size: 18px; line-height: 1.5 }
+.panel blockquote footer { margin-top: 14px; font-size: 14px; color: #4a4a46 }
+.panel ol, .panel ul { margin: 0; padding-left: 22px; display: grid; gap: 12px }
+.panel li b { display: block }
+
+/* work */
+.work { padding-block: 96px 0 }
+.cases { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 20px }
+.card { border: var(--border); background: var(--card); box-shadow: var(--pop); padding: 26px; border-radius: 18px; display: flex; flex-direction: column; gap: 12px; min-width: 0 }
+.card .where { align-self: flex-start; font-weight: 700; font-size: 14px; padding: 4px 12px; border: 2px solid var(--ink); border-radius: 999px; background: var(--pink); color: #111 }
+.card:nth-child(2) .where { background: var(--sun) } .card:nth-child(3) .where { background: var(--mint); color: #fff } .card:nth-child(4) .where { background: var(--paper); color: var(--ink) }
+.card p { color: var(--soft) }
+
+/* about */
+.about { padding-block: 96px }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start }
+.bio { font-size: clamp(22px, 2.2vw, 30px); line-height: 1.3; font-weight: 600 }
+.bio-wrap { display: grid; gap: 20px }
+.bio-2 { font-size: 19px; color: var(--soft); max-width: 52ch }
+.facts { display: grid; gap: 16px }
+.fact { border: var(--border); border-radius: 18px; padding: 18px 20px; background: var(--card); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap }
+.fact span:first-child { font-weight: 700 }
+.fact span:last-child { color: var(--soft); text-align: right }
+
+/* contact + footer */
+.contact { background: var(--mint); border-top: var(--border); padding-block: 72px; color: #111 }
+.contact .inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap }
+.contact h2 { color: #111 }
+.links { display: flex; gap: 14px; flex-wrap: wrap }
+.links a.alt { background: #fff }
+footer.big { background: var(--ink); color: var(--paper); overflow: hidden; border-top: var(--border) }
+footer.big .inner { padding-block: 40px 24px }
+footer.big .name { font-size: clamp(56px, 17vw, 260px); white-space: nowrap; display: block; line-height: .8 }
+footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .8 }
+
+@media (max-width: 900px) {
+  .steps { grid-template-columns: repeat(2, minmax(0,1fr)) }
+  .case-grid, .about-grid, .process-head { grid-template-columns: 1fr }
+}
+@media (max-width: 620px) {
+  .nav { display: none }
+  .hero .inner { grid-template-columns: 1fr; justify-items: center; padding-block: 28px 40px }
+  .name.first, .name.last { justify-self: center; padding: 0; font-size: 22vw }
+  .name.first { order: 0 } .portrait { order: 1; margin: 18px 0; width: 70vw } .name.last { order: 2 }
+  .lede { order: 3; margin-top: 28px }
+  .steps, .cases { grid-template-columns: 1fr }
+  .process, .case, .about { padding-block: 64px }
+}
+@media (prefers-reduced-motion: reduce) { .btn { transition: none } }
+</style>
+</head>
+<body>
+
+<header class="bar wrap">
+  <div class="inner">
+    <a class="mark" href="#top">lea.tinoso</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#process">Process</a>
+      <a href="#case">Case file</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero wrap" id="top">
+  <div class="inner">
+    <h1 style="display:contents">
+      <span class="name first">Lea</span>
+      <span class="portrait" role="img" aria-label="Cartoon portrait of Lea">
+        <svg viewBox="0 0 200 250" aria-hidden="true">
+          <path d="M44 250V118c0-48 24-78 56-78s56 30 56 78v132z" fill="#d9a24e" stroke="#111" stroke-width="4"/>
+          <path d="M28 250c4-44 30-66 72-66s68 22 72 66z" fill="#f1ead9" stroke="#111" stroke-width="4"/>
+          <path d="M82 186l18 40 18-40z" fill="#1d1d1d" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M70 188l20 58M130 188l-20 58" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+          <rect x="88" y="150" width="24" height="34" fill="#c98c62" stroke="#111" stroke-width="4"/>
+          <ellipse cx="100" cy="116" rx="38" ry="46" fill="#c98c62" stroke="#111" stroke-width="4"/>
+          <path d="M58 122c-2-46 18-74 42-74 30 0 46 26 44 70-8-30-22-44-44-50-14 10-30 26-42 54z" fill="#d9a24e" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M68 70c8-14 20-22 32-22s26 8 34 22c-10-6-22-8-34-8s-24 2-32 8z" fill="#2b1d14"/>
+          <path d="M60 120c-6 40-4 80 2 110l16-4c-6-34-8-70-6-100zM140 120c6 40 4 80-2 110l-16-4c6-34 8-70 6-100z" fill="#d9a24e" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+          <rect x="66" y="100" width="30" height="27" rx="9" fill="#fff" fill-opacity=".35" stroke="#111" stroke-width="3.5"/>
+          <rect x="104" y="100" width="30" height="27" rx="9" fill="#fff" fill-opacity=".35" stroke="#111" stroke-width="3.5"/>
+          <path d="M96 110h8" stroke="#111" stroke-width="3.5"/>
+          <path d="M74 96c4-3 12-3 16 0M110 96c4-3 12-3 16 0" fill="none" stroke="#2b1d14" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="82" cy="114" r="3.6" fill="#111"/><circle cx="118" cy="114" r="3.6" fill="#111"/>
+          <path d="M100 116v12" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+          <path d="M90 140c6 5 14 5 20 0" fill="#a8565c" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+        <span class="sticker">hi, I'm Lea</span>
+      </span>
+      <span class="name last">Tinoso</span>
+    </h1>
+    <div class="lede">
+      <p>Senior full-stack engineer. I build with Claude Code, and this site shows how I think while I do it.</p>
+      <a class="btn" href="#process">See how I work <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="process wrap" id="process">
+  <div class="inner">
+    <div class="process-head">
+      <h2>My loop, every build</h2>
+      <p>Tech stacks change. The way I break a problem down stays the same. Every project, big or small, goes through these four steps with Claude Code as my pair.</p>
+    </div>
+    <ol class="steps">
+      <li class="step">
+        <span class="verb">Explore</span>
+        <p>Before touching code, I find out what's really there: the repo, the constraints, what the person actually wants.</p>
+        <p class="ask"><b>I ask Claude:</b> read the codebase and tell me how this part works before we change it.</p>
+      </li>
+      <li class="step">
+        <span class="verb">Plan</span>
+        <p>I write the approach down and argue with it. Weak spots are cheaper to fix in a plan than in a pull request.</p>
+        <p class="ask"><b>I ask Claude:</b> propose a plan, then list what could go wrong with it.</p>
+      </li>
+      <li class="step">
+        <span class="verb">Build</span>
+        <p>Small steps, each one reviewable. I steer, Claude types, and I read every diff like a reviewer would.</p>
+        <p class="ask"><b>I ask Claude:</b> make the smallest change that proves the plan works.</p>
+      </li>
+      <li class="step">
+        <span class="verb">Verify</span>
+        <p>Tests, screenshots, a real run. It isn't done when the code compiles. It's done when I've seen it work.</p>
+        <p class="ask"><b>I ask Claude:</b> show me evidence that this works, not a summary saying it does.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="case wrap" id="case">
+  <div class="inner">
+    <h2>Case file: this website</h2>
+    <div class="case-grid">
+      <div class="case-intro">
+        <p>Front-end design isn't my strongest skill, so I didn't fake it. I gave Claude Code a clear brief, three design repos to learn from, and the one thing I cared about most: show process, not just a stack.</p>
+        <p>Click through the tabs to see the prompt I started with, the calls I made, and what Claude did with them.</p>
+      </div>
+      <div>
+        <div class="tabs" role="tablist" aria-label="Case file">
+          <button class="tab" role="tab" id="t-ask" aria-controls="p-ask" aria-selected="true">The prompt</button>
+          <button class="tab" role="tab" id="t-call" aria-controls="p-call" aria-selected="false" tabindex="-1">My decisions</button>
+          <button class="tab" role="tab" id="t-did" aria-controls="p-did" aria-selected="false" tabindex="-1">What Claude did</button>
+        </div>
+        <div class="panel" role="tabpanel" id="p-ask" aria-labelledby="t-ask">
+          <blockquote>
+            "A typical SWE portfolio would show tech stacks and experience. I wanna build a portfolio that will instead show my process, including my thought process when building projects or tackling problems as a software engineer using agentic development. I like retro looking sites such as arc.net or gumroad.com. Make the initial version really simple. In the middle maybe we can add a cartoonized version of myself."
+            <footer>My first message to Claude Code, lightly trimmed</footer>
+          </blockquote>
+        </div>
+        <div class="panel" role="tabpanel" id="p-call" aria-labelledby="t-call" hidden>
+          <ol>
+            <li><b>Process over stack.</b>Recruiters can read my resume for tools. This page is for how I think.</li>
+            <li><b>Admit the weak spot.</b>I linked three UI/UX repos so Claude had real design rules to follow instead of guessing.</li>
+            <li><b>Start small.</b>One page, the important facts, then iterate in public.</li>
+            <li><b>A face, not a headshot.</b>A cartoon portrait in the middle keeps it friendly and on theme.</li>
+          </ol>
+        </div>
+        <div class="panel" role="tabpanel" id="p-did" aria-labelledby="t-did" hidden>
+          <ul>
+            <li><b>Named the style.</b>The Gumroad look is called neo-brutalism: thick black outlines, flat bright colours, hard offset shadows.</li>
+            <li><b>Used the design repos.</b>Ran the taste-skill direction picker and took its "name as a monument" layout for the hero.</li>
+            <li><b>Worked from real sources.</b>Wrote the About and work sections only from my resume, and drew the cartoon from a selfie I sent.</li>
+            <li><b>Showed before shipping.</b>Published a preview first so I could react to something real, then pushed it to my repo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="work wrap" id="work">
+  <div class="inner">
+    <div class="process-head">
+      <h2>Problems I've solved</h2>
+      <p>A few from the last five years. Each one started as a problem someone was living with, not a ticket that said which tool to use.</p>
+    </div>
+    <div class="cases">
+      <article class="card">
+        <span class="where">Anervea.ai · 2026</span>
+        <h3>Access control had drifted across ~90 handlers</h3>
+        <p>I moved every Lambda handler onto one shared permission check, added session revocation and WebSocket permission checks, then a CI guard so it can't drift again.</p>
+      </article>
+      <article class="card">
+        <span class="where">Anervea.ai · 2026</span>
+        <h3>Production AI features ran on three providers</h3>
+        <p>I migrated news signaling, clinical-trial comparison and presentation generation from OpenAI and Gemini to Claude Sonnet and Opus, in 9 reviewable PRs.</p>
+      </article>
+      <article class="card">
+        <span class="where">Anervea.ai · 2026</span>
+        <h3>QA needed a developer to verify every feature</h3>
+        <p>I built evidence tooling with Playwright for the frontend and Postman/Newman for the backend. Four client repos adopted it, and QA now verifies on their own.</p>
+      </article>
+      <article class="card">
+        <span class="where">WeStride · 2024</span>
+        <h3>An LMS bill of ~$1,000 a month</h3>
+        <p>Caching in Nest.js and leaner user management brought it to $200–300 a month, saving about $12,000 a year.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="about wrap" id="about">
+  <div class="inner about-grid">
+    <div>
+      <h2 style="margin-bottom:24px">About me</h2>
+      <div class="bio-wrap">
+        <p class="bio">I'm Lea, a senior full-stack engineer with about five years of shipping production web apps, all remote, for teams in Australia, the US, Thailand and India.</p>
+        <p class="bio-2">Today I'm a Pod Lead at Anervea.ai, leading a four-person team on a pharma intelligence platform. I work across 12 repositories and four stacks with Claude Code agents doing the implementation, while I own the design, review and QA decisions.</p>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="fact"><span>Currently</span><span>Pod Lead, Anervea.ai</span></div>
+      <div class="fact"><span>Experience</span><span>~5 years, full-stack</span></div>
+      <div class="fact"><span>Day to day</span><span>Python, AWS Lambda, Next.js, React</span></div>
+      <div class="fact"><span>AI tooling</span><span>Claude API, Claude Code, MCP</span></div>
+      <div class="fact"><span>Based in</span><span>Philippines (UTC+8), remote</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact wrap" id="contact">
+  <div class="inner">
+    <h2>Let's talk process</h2>
+    <div class="links">
+      <a class="btn" href="https://github.com/lea-tinoso" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+      <a class="btn alt" href="https://www.linkedin.com/in/lealynltinoso/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="big wrap">
+  <div class="inner">
+    <span class="name">Lea Tinoso</span>
+    <small>Built with Claude Code. Version 1.</small>
+  </div>
+</footer>
+
+<script>
+const tabs = [...document.querySelectorAll('.tab')];
+function select(t) {
+  tabs.forEach(x => {
+    const on = x === t;
+    x.setAttribute('aria-selected', on);
+    x.tabIndex = on ? 0 : -1;
+    document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+  });
+}
+tabs.forEach((t, i) => {
+  t.addEventListener('click', () => select(t));
+  t.addEventListener('keydown', e => {
+    const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if (d) { const n = tabs[(i + d + tabs.length) % tabs.length]; select(n); n.focus(); }
+  });
+});
+</script>
+</body>
+</html>
