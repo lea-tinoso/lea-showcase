@@ -12,7 +12,7 @@ The style is **neo-brutalism**, the look Gumroad uses: thick black outlines, fla
 
 ## Sections
 
-1. **Hero**: name, cartoon portrait, one-line intro.
+1. **Hero**: name, cartoon portrait with an Instagram-style note for the current side quest, one-line intro.
 2. **My loop**: Explore, Plan, Build, Verify, and what I ask Claude at each step.
 3. **Case file**: how this site was built, from the first prompt to the decisions behind it.
 4. **Problems I've solved**: real problems from my work and how I approached them.

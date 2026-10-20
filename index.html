@@ -57,15 +57,21 @@ p { margin: 0 }
 
 /* hero */
 .hero { background: var(--pink); border-bottom: var(--border); overflow: hidden; color: #111 }
-.hero .inner { position: relative; padding-block: 40px 56px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0 24px }
+.hero .inner { position: relative; padding-block: 72px 56px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0 24px }
 .name { font: 800 clamp(64px, 13vw, 210px)/.82 var(--display); letter-spacing: -0.06em; }
 .name.first { justify-self: end; align-self: start; padding-top: 6vw }
 .name.last { justify-self: start; align-self: end; padding-bottom: 4vw }
 .portrait { display: block; width: clamp(220px, 26vw, 340px); aspect-ratio: 4/5; max-width: 100%; background: var(--sun); border: 3px solid #111;
   border-radius: 999px 999px 24px 24px; box-shadow: 8px 8px 0 #111; position: relative }
 .portrait svg { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit }
-.sticker { position: absolute; right: -6px; top: 18%; transform: rotate(8deg); background: #fff; border: 3px solid #111;
-  border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: 14px; box-shadow: 3px 3px 0 #111; white-space: nowrap }
+/* Instagram-style note: a speech bubble floating above the head */
+.note { position: absolute; left: 50%; top: -22px; transform: translateX(-50%) rotate(-3deg); width: max-content; max-width: 230px;
+  background: #fff; color: #111; border: 3px solid #111; border-radius: 22px; padding: 10px 14px 12px; box-shadow: 4px 4px 0 #111;
+  font-size: 14px; line-height: 1.3; font-weight: 600; text-align: center; text-decoration: none; z-index: 2; transition: transform .15s }
+.note::after { content: ""; position: absolute; left: 34%; bottom: -14px; width: 16px; height: 16px; background: #fff;
+  border: 3px solid #111; border-radius: 50%; box-shadow: 3px 3px 0 #111 }
+.note:hover { transform: translateX(-50%) rotate(0deg) scale(1.04) }
+.note-k { display: block; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #a63c93; margin-bottom: 2px }
 .lede { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; margin-top: 40px }
 .lede p { font-size: clamp(20px, 2vw, 26px); line-height: 1.3; max-width: 34ch; font-weight: 600 }
 
@@ -136,12 +142,12 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
   .nav { display: none }
   .hero .inner { grid-template-columns: 1fr; justify-items: center; padding-block: 28px 40px }
   .name.first, .name.last { justify-self: center; padding: 0; font-size: 22vw }
-  .name.first { order: 0 } .portrait { order: 1; margin: 18px 0; width: 70vw } .name.last { order: 2 }
+  .name.first { order: 0 } .portrait { order: 1; margin: 44px 0 18px; width: 70vw } .name.last { order: 2 }
   .lede { order: 3; margin-top: 28px }
   .steps, .cases { grid-template-columns: 1fr }
   .process, .case, .about { padding-block: 64px }
 }
-@media (prefers-reduced-motion: reduce) { .btn { transition: none } }
+@media (prefers-reduced-motion: reduce) { .btn, .note { transition: none } }
 </style>
 </head>
 <body>
@@ -182,7 +188,7 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
           <path d="M100 116v12" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
           <path d="M90 140c6 5 14 5 20 0" fill="#a8565c" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
         </svg>
-        <span class="sticker">hi, I'm Lea</span>
+        <a class="note" href="https://github.com/Gathin23/cleanyourtv" target="_blank" rel="noopener"><span class="note-k">side quest</span>vibe-coded my tv last night. now i'm reverse-engineering it. it doesn't know yet.</a>
       </span>
       <span class="name last">Tinoso</span>
     </h1>
@@ -249,7 +255,7 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
             <li><b>Process over stack.</b>Recruiters can read my resume for tools. This page is for how I think.</li>
             <li><b>Admit the weak spot.</b>I linked three UI/UX repos so Claude had real design rules to follow instead of guessing.</li>
             <li><b>Start small.</b>One page, the important facts, then iterate in public.</li>
-            <li><b>A face, not a headshot.</b>A cartoon portrait in the middle keeps it friendly and on theme.</li>
+            <li><b>A face, not a headshot.</b>A cartoon portrait in the middle keeps it friendly, with an Instagram-style note for whatever side quest I'm on.</li>
           </ol>
         </div>
         <div class="panel" role="tabpanel" id="p-did" aria-labelledby="t-did" hidden>
