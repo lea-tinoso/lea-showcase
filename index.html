@@ -133,6 +133,10 @@ p { margin: 0 }
 .level-tabs .panel { min-height: 0 }
 .ladder-credit { font-size: 15px; color: var(--soft); margin-bottom: 44px }
 .ladder-credit a { color: var(--ink); font-weight: 600 }
+.try-it { margin-top: 40px; border: var(--border); border-radius: 18px; background: var(--mint); color: #111; box-shadow: var(--pop); padding: 24px 26px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px }
+.try-it > div { display: grid; gap: 8px; max-width: 56ch; min-width: 0 }
+.try-it h3 { font-size: 26px }
 .next-rung { margin-top: 40px; font-size: clamp(19px, 1.8vw, 23px); font-weight: 600; max-width: 60ch }
 
 /* about */
@@ -391,6 +395,13 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
           <li><b>Claude went first, then I corrected it twice.</b>It had credited me for skills I never touched, and for creating bots I'd only adapted. Both corrections lowered the score. That's the point.</li>
         </ul>
       </div>
+    </div>
+    <div class="try-it">
+      <div>
+        <h3>Where are you on the ladder?</h3>
+        <p>Grade yourself with the same rules I used. Fill in the checklist, or paste a ready-made prompt into your AI tool and let it grade you.</p>
+      </div>
+      <a class="btn" href="/self-check.html">Take the self-check <span aria-hidden="true">→</span></a>
     </div>
     <p class="next-rung"><b>Next rung:</b> build one small MCP server for a real team pain point, instead of having each agent scrape the same APIs separately.</p>
   </div>
