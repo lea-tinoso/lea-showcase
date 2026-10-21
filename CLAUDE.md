@@ -29,6 +29,6 @@ A portfolio that shows **how Lea thinks and works** as a software engineer build
 ## How to work
 
 1. **Plan first.** For anything bigger than a copy tweak, propose a short plan before editing.
-2. **Keep it static.** Plain HTML pages (`index.html`, `self-check.html`), no build step, unless Lea decides otherwise.
+2. **Keep it static.** Plain HTML pages (`index.html`, `self-check.html`) plus `ladder.js` for the shared ladder data, no build step, unless Lea decides otherwise.
 3. **Verify before the PR.** Screenshot the page at desktop (1440px) and phone (390px) widths and check it in both themes. Run taste-skill's `inspect.mjs` when layout changes.
 4. **Ship through a PR.** Never push to `main` directly. Vercel deploys `main` on merge and gives each PR a preview link.

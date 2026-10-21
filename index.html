@@ -133,11 +133,29 @@ p { margin: 0 }
 .level-tabs .panel { min-height: 0 }
 .ladder-credit { font-size: 15px; color: var(--soft); margin-bottom: 44px }
 .ladder-credit a { color: var(--ink); font-weight: 600 }
-.try-it { margin-top: 40px; border: var(--border); border-radius: 18px; background: var(--mint); color: #111; box-shadow: var(--pop); padding: 24px 26px;
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px }
-.try-it > div { display: grid; gap: 8px; max-width: 56ch; min-width: 0 }
-.try-it h3 { font-size: 26px }
 .next-rung { margin-top: 40px; font-size: clamp(19px, 1.8vw, 23px); font-weight: 600; max-width: 60ch }
+
+/* level: your turn tab */
+.tab.you { background: var(--mint); color: #111 }
+.tab.you[aria-selected="true"] { background: #fff }
+.you-intro { margin-bottom: 18px; font-weight: 600 }
+.ygrid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px }
+.yc { border: 2px solid #111; border-radius: 14px; padding: 14px; display: grid; gap: 6px; align-content: start; min-width: 0 }
+.yc[data-state="met"] { background: #fff3b0 }
+.yc[data-state="half"] { box-shadow: 4px 4px 0 var(--pink) }
+.yc ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 8px; font-size: 15px }
+.yc label { display: grid; grid-template-columns: 20px 1fr; gap: 8px; align-items: start; cursor: pointer }
+.yc input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: #111 }
+.ybar { margin-top: 20px; padding-top: 18px; border-top: 2px dashed #111; display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between }
+.yverdict { font-size: 20px }
+.ybtns { display: flex; flex-wrap: wrap; gap: 12px }
+.btn.ghost { background: #fff }
+.panel { color-scheme: light }
+.panel .btn { border-color: #111; box-shadow: 4px 4px 0 #111 }
+.ystatus { font-weight: 700; min-height: 1.5em; margin-top: 10px }
+.ymore { font-size: 15px }
+.ymore a { font-weight: 700 }
+@media (max-width: 900px) { .ygrid { grid-template-columns: repeat(2, minmax(0,1fr)) } }
 
 /* about */
 .about { padding-block: 96px }
@@ -172,7 +190,7 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
   .name.first, .name.last { justify-self: center; padding: 0; font-size: 22vw }
   .name.first { order: 0 } .portrait { order: 1; margin: 44px 0 18px; width: 70vw } .name.last { order: 2 }
   .lede { order: 3; margin-top: 28px }
-  .steps, .cases, .ladder { grid-template-columns: 1fr }
+  .steps, .cases, .ladder, .ygrid { grid-template-columns: 1fr }
   .rung.here { transform: none }
   .process, .case, .about { padding-block: 64px }
   .level { padding-block: 64px 0 }
@@ -371,6 +389,7 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
         <button class="tab" role="tab" id="t-ev" aria-controls="p-ev" aria-selected="true">The evidence</button>
         <button class="tab" role="tab" id="t-not" aria-controls="p-not" aria-selected="false" tabindex="-1">What I'm not (yet)</button>
         <button class="tab" role="tab" id="t-how" aria-controls="p-how" aria-selected="false" tabindex="-1">How I graded it</button>
+        <button class="tab you" role="tab" id="t-you" aria-controls="p-you" aria-selected="false" tabindex="-1">Your turn: grade yourself</button>
       </div>
       <div class="panel" role="tabpanel" id="p-ev" aria-labelledby="t-ev" tabindex="0">
         <ul>
@@ -395,13 +414,20 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
           <li><b>Claude went first, then I corrected it twice.</b>It had credited me for skills I never touched, and for creating bots I'd only adapted. Both corrections lowered the score. That's the point.</li>
         </ul>
       </div>
-    </div>
-    <div class="try-it">
-      <div>
-        <h3>Where are you on the ladder?</h3>
-        <p>Grade yourself with the same rules I used. Fill in the checklist, or paste a ready-made prompt into your AI tool and let it grade you.</p>
+      <div class="panel" role="tabpanel" id="p-you" aria-labelledby="t-you" tabindex="0" hidden>
+        <p class="you-intro">Same ladder, same rules: tick only what you can back with real work. A level counts when every box is ticked.</p>
+        <div class="ygrid" id="ygrid"></div>
+        <noscript><p>The quick check needs JavaScript. <a href="/self-check.html">Open the full self-check</a> instead.</p></noscript>
+        <div class="ybar">
+          <p class="yverdict" aria-live="polite">You: <b id="yverdict">Not graded yet</b></p>
+          <div class="ybtns">
+            <button class="btn" type="button" id="y-copy">Copy my result</button>
+            <button class="btn ghost" type="button" id="y-prompt">Copy AI prompt instead</button>
+          </div>
+        </div>
+        <p class="ystatus" id="y-status" role="status"></p>
+        <p class="ymore">Want to add evidence or see my answers filled in? <a href="/self-check.html">Open the full self-check <span aria-hidden="true">→</span></a></p>
       </div>
-      <a class="btn" href="/self-check.html">Take the self-check <span aria-hidden="true">→</span></a>
     </div>
     <p class="next-rung"><b>Next rung:</b> build one small MCP server for a real team pain point, instead of having each agent scrape the same APIs separately.</p>
   </div>
@@ -443,6 +469,7 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
   </div>
 </footer>
 
+<script src="/ladder.js"></script>
 <script>
 // Each tablist (case file, level) manages only its own tabs and panels.
 document.querySelectorAll('[role="tablist"]').forEach(list => {
@@ -465,6 +492,42 @@ document.querySelectorAll('[role="tablist"]').forEach(list => {
     });
   });
 });
+
+// "Your turn" tab: a quick self-check on the same ladder as /self-check.html.
+(() => {
+  const grid = document.getElementById('ygrid');
+  if (!grid || typeof LEVELS === 'undefined') return;
+  grid.innerHTML = LEVELS.map((lv, li) => `
+    <div class="yc" id="yc${li}"><span class="rung-n">Level ${li + 1}</span><b>${lv.name}</b><ul>${lv.crits.map((c, ci) => `
+      <li><label for="y${li}-${ci}"><input type="checkbox" id="y${li}-${ci}"> ${c[0].replace(/\.$/, '')}</label></li>`).join('')}</ul></div>`).join('');
+  const counts = () => LEVELS.map((lv, li) => lv.crits.filter((_, ci) => document.getElementById(`y${li}-${ci}`).checked).length);
+  function render() {
+    const c = counts(), { full } = gradeLadder(c);
+    LEVELS.forEach((lv, li) => {
+      document.getElementById('yc' + li).dataset.state = li < full ? 'met' : c[li] > 0 ? 'half' : '';
+    });
+    document.getElementById('yverdict').textContent = verdictText(c);
+  }
+  grid.addEventListener('change', render);
+  const status = document.getElementById('y-status');
+  function copy(text, done) {
+    try { navigator.clipboard.writeText(text).then(() => { status.textContent = done; },
+      () => { status.textContent = "Couldn't copy here. Open the full self-check to copy it."; }); }
+    catch (e) { status.textContent = "Couldn't copy here. Open the full self-check to copy it."; }
+  }
+  document.getElementById('y-copy').addEventListener('click', () => {
+    const c = counts();
+    const lines = ['My agentic ladder self-check', verdictText(c), ''];
+    LEVELS.forEach((lv, li) => {
+      lines.push(`Level ${li + 1}, ${lv.name}: ${c[li]} of ${lv.crits.length}`);
+      lv.crits.forEach((cr, ci) => lines.push(`  [${document.getElementById(`y${li}-${ci}`).checked ? 'x' : ' '}] ${cr[0]}`));
+    });
+    lines.push('', 'Ladder: "Agentic Coding Proficiency Journey" (https://lnkd.in/p/gFze7Riq)');
+    copy(lines.join('\n'), 'Copied. Paste it wherever you like.');
+  });
+  document.getElementById('y-prompt').addEventListener('click', () => copy(buildPrompt(), 'Prompt copied. Paste it into your AI tool.'));
+  render();
+})();
 </script>
 </body>
 </html>
