@@ -114,10 +114,10 @@ p { margin: 0 }
 
 /* level */
 .level { padding-block: 96px 0 }
-.level .process-head { margin-bottom: 28px }
+.level-h { margin-bottom: 28px; max-width: 16ch }
 .verdict { font: 800 clamp(28px, 3.4vw, 44px)/1.05 var(--display); letter-spacing: -0.03em; text-wrap: balance }
-.verdict-why { margin-top: 12px; color: var(--soft); max-width: 62ch }
-.ladder { list-style: none; padding: 0; margin: 36px 0 48px; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 20px }
+.verdict-why { margin-top: 10px; color: var(--soft); max-width: 62ch }
+.ladder { list-style: none; padding: 0; margin: 36px 0 18px; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 20px }
 .rung { border: var(--border); border-radius: 18px; background: var(--card); padding: 20px; display: flex; flex-direction: column; gap: 10px; min-width: 0 }
 .rung h3 { font-size: 22px }
 .rung p { color: var(--soft); font-size: 15px }
@@ -130,6 +130,8 @@ p { margin: 0 }
 .rung.here .rung-state { background: #111; color: #fff; border-color: #111 }
 .rung.half .rung-state { background: var(--pink); color: #111 }
 .level-tabs .panel { min-height: 0 }
+.ladder-credit { font-size: 15px; color: var(--soft); margin-bottom: 44px }
+.ladder-credit a { color: var(--ink); font-weight: 600 }
 .next-rung { margin-top: 40px; font-size: clamp(19px, 1.8vw, 23px); font-weight: 600; max-width: 60ch }
 
 /* about */
@@ -328,12 +330,10 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
 
 <section class="level wrap" id="level" aria-labelledby="level-h">
   <div class="inner">
-    <div class="process-head">
-      <h2 id="level-h">Where I am on the agentic ladder</h2>
-      <p>I graded myself, and I only counted commits I actually touched.</p>
-    </div>
+    <h2 id="level-h" class="level-h">Where I am on the agentic ladder</h2>
     <p class="verdict">Level 3, with one foot in Level 4.</p>
     <p class="verdict-why">I lead a team's shift to agents and I built my own agent system. But I haven't built a custom MCP server yet, so I'm not claiming Level 4.</p>
+    <p class="verdict-why">I graded myself, and I only counted commits I actually touched.</p>
     <ol class="ladder" aria-label="Agentic coding proficiency levels">
       <li class="rung passed">
         <span class="rung-n">Level 1</span>
@@ -360,6 +360,7 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
         <span class="rung-state">Half: leadership yes, MCPs not yet</span>
       </li>
     </ol>
+    <p class="ladder-credit">The ladder is the "Agentic Coding Proficiency Journey" from <a href="https://lnkd.in/p/gFze7Riq" target="_blank" rel="noopener">a 15-minute talk by two Senior Staff Engineers at Airbnb <span aria-hidden="true">↗</span></a></p>
     <div class="level-tabs">
       <div class="tabs" role="tablist" aria-label="Level self-assessment">
         <button class="tab" role="tab" id="t-ev" aria-controls="p-ev" aria-selected="true">The evidence</button>
