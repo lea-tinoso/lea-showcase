@@ -104,6 +104,8 @@ p { margin: 0 }
 .panel ol, .panel ul { margin: 0; padding-left: 22px; display: grid; gap: 12px }
 .panel li b { display: block }
 .panel li a { font-weight: 700; color: #111 }
+.panel .eg { display: block; margin-top: 6px; color: #4a4a46 }
+.panel-intro .eg { font-weight: 400 }
 
 /* work */
 .work { padding-block: 96px 0 }
@@ -138,7 +140,7 @@ p { margin: 0 }
 /* level: your turn tab */
 .tab.you { background: var(--mint); color: #111 }
 .tab.you[aria-selected="true"] { background: #fff }
-.you-intro { margin-bottom: 18px; font-weight: 600 }
+.you-intro, .panel-intro { margin-bottom: 18px; font-weight: 600 }
 .ygrid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px }
 .yc { border: 2px solid #111; border-radius: 14px; padding: 14px; display: grid; gap: 6px; align-content: start; min-width: 0 }
 .yc[data-state="met"] { background: #fff3b0 }
@@ -387,6 +389,7 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
     <div class="level-tabs">
       <div class="tabs" role="tablist" aria-label="Level self-assessment">
         <button class="tab" role="tab" id="t-ev" aria-controls="p-ev" aria-selected="true">The evidence</button>
+        <button class="tab" role="tab" id="t-work" aria-controls="p-work" aria-selected="false" tabindex="-1">How I work with it</button>
         <button class="tab" role="tab" id="t-not" aria-controls="p-not" aria-selected="false" tabindex="-1">What I'm not (yet)</button>
         <button class="tab" role="tab" id="t-how" aria-controls="p-how" aria-selected="false" tabindex="-1">How I graded it</button>
         <button class="tab you" role="tab" id="t-you" aria-controls="p-you" aria-selected="false" tabindex="-1">Your turn: grade yourself</button>
@@ -400,6 +403,15 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
           <li><b>A "tech lead" agent, built from scratch.</b>82 of 82 commits are mine. It watches a team's pull requests, posts reviews, runs in shadow mode before it's trusted to merge, and has a nightly loop that proposes improvements to its own rules. <a href="https://github.com/lea-tinoso/tech-lead-bot" target="_blank" rel="noopener">See the repo <span aria-hidden="true">↗</span></a></li>
         </ul>
       </div>
+      <div class="panel" role="tabpanel" id="p-work" aria-labelledby="t-work" tabindex="0" hidden>
+        <p class="panel-intro">Prompts are cheap. These are the four habits that actually changed my results.<span class="eg">All four come from my work Claude Code account, so the notes and examples stay private. The habits are the part I can share.</span></p>
+        <ol>
+          <li><b>I turn mistakes into standing instructions.</b>When the agent gets something wrong, I say "save that" once. The saved note records what happened, why it matters, and where the rule stops applying, so the same mistake doesn't come back next session. I have 79 of these notes on my main project, 31 of them corrections.<span class="eg">Example: the agent updated pull requests in a way that stripped their commit signatures, and they couldn't merge. One saved note now overrides the team default on that project, and it hasn't happened again.</span></li>
+          <li><b>I make it draft before anything goes out.</b>Comments, tickets, pull requests and page updates come to me as a draft first. Nothing is published until I say so.<span class="eg">Example: "draft the comment first", then "post".</span></li>
+          <li><b>I narrow the scope.</b>I say what's in and what's out, so the agent doesn't do extra work I'd have to undo.<span class="eg">Example: "analyze only the tickets in the current sprint", "don't include that script".</span></li>
+          <li><b>I ask it to show its reasoning.</b>Before I trust a claim, I ask what it's based on.<span class="eg">Example: "where did you base this?" That question has caught the agent crediting me for work I didn't do. The "How I graded it" tab shows two of those corrections.</span></li>
+        </ol>
+      </div>
       <div class="panel" role="tabpanel" id="p-not" aria-labelledby="t-not" tabindex="0" hidden>
         <ul>
           <li><b>No custom MCP server yet.</b>The ones I use are shared or third-party.</li>
@@ -412,6 +424,7 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
           <li><b>Only my own commits.</b>I counted commits authored by me and separated them from the commits my agents made under my identity.</li>
           <li><b>Nothing my agents or teammates wrote.</b>Not even inside tools I use every day.</li>
           <li><b>Claude went first, then I corrected it twice.</b>It had credited me for skills I never touched, and for creating bots I'd only adapted. Both corrections lowered the score. That's the point.</li>
+          <li><b>The habits got the same treatment.</b>The habits in "How I work with it" were graded the same way: Claude's first pass listed five, but two were the same habit, so I merged them.</li>
         </ul>
       </div>
       <div class="panel" role="tabpanel" id="p-you" aria-labelledby="t-you" tabindex="0" hidden>
