@@ -103,6 +103,7 @@ p { margin: 0 }
 .panel blockquote footer { margin-top: 14px; font-size: 14px; color: #4a4a46 }
 .panel ol, .panel ul { margin: 0; padding-left: 22px; display: grid; gap: 12px }
 .panel li b { display: block }
+.panel li a { font-weight: 700; color: #111 }
 
 /* work */
 .work { padding-block: 96px 0 }
@@ -373,7 +374,7 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
           <li><b>Parallel agents, models picked by cost.</b>I run several agents in parallel, each in its own git worktree. A big model does the main work; small, cheap models do wide review sweeps.</li>
           <li><b>About 3× more agent commits than mine.</b>On my main project my coding agent has made ~390 commits to my ~120. My job has shifted from writing code to setting the guardrails it runs inside.</li>
           <li><b>Two agent runners, bent to my workflow.</b>I adapted two runners I didn't originally write, across ~250 commits: ticket limits per day, a hand-off when the agent refuses a task, and a draft-PR flow.</li>
-          <li><b>A "tech lead" agent, built from scratch.</b>82 of 82 commits are mine. It watches a team's pull requests, posts reviews, runs in shadow mode before it's trusted to merge, and has a nightly loop that proposes improvements to its own rules.</li>
+          <li><b>A "tech lead" agent, built from scratch.</b>82 of 82 commits are mine. It watches a team's pull requests, posts reviews, runs in shadow mode before it's trusted to merge, and has a nightly loop that proposes improvements to its own rules. <a href="https://github.com/lea-tinoso/tech-lead-bot" target="_blank" rel="noopener">See the repo <span aria-hidden="true">↗</span></a></li>
         </ul>
       </div>
       <div class="panel" role="tabpanel" id="p-not" aria-labelledby="t-not" tabindex="0" hidden>
