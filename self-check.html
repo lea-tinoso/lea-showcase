@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agentic Ladder Self-Check · Lea Tinoso</title>
+<meta name="description" content="Grade yourself on the four levels of agentic coding, or paste a prompt into your AI tool and let it grade you.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
+<style>
+/* Layout: a single worksheet column. Rules up top, four rung cards you tick through, and a sticky-feeling verdict card at the end that you can copy and send. Neo-brutalist, matching Lea's portfolio. */
+:root {
+  --paper: #f4f4f0;
+  --ink: #111111;
+  --card: #ffffff;
+  --soft: #4a4a46;
+  --pink: #ff90e8;
+  --sun: #ffc900;
+  --mint: #23a094;
+  --on-color: #111111;
+  --font: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --border: 3px solid var(--ink);
+  --pop: 6px 6px 0 var(--ink);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #161614; --ink: #f4f4f0; --card: #22221f; --soft: #c9c9c2; --mint: #2fc2b3; color-scheme: dark } }
+:root[data-theme="dark"] { --paper: #161614; --ink: #f4f4f0; --card: #22221f; --soft: #c9c9c2; --mint: #2fc2b3; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); font-size: 17px; line-height: 1.5 }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 72px }
+main { max-width: 860px; margin: 0 auto; display: grid; gap: 40px }
+h1, h2, h3 { margin: 0; line-height: 1; letter-spacing: -0.03em; text-wrap: balance }
+h1 { font-size: clamp(40px, 7vw, 76px); font-weight: 800 }
+h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 800 }
+h3 { font-size: 24px; font-weight: 800 }
+p { margin: 0 }
+a { color: inherit; font-weight: 600 }
+:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px }
+
+.intro { display: grid; gap: 16px }
+.intro .lede { font-size: 20px; max-width: 58ch }
+.credit { color: var(--soft); font-size: 15px }
+.tools { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 20px; border: var(--border); border-radius: 999px;
+  background: var(--card); color: var(--ink); font: 700 16px/1 var(--font); cursor: pointer; box-shadow: 4px 4px 0 var(--ink); transition: transform .12s, box-shadow .12s }
+.btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink) }
+.btn:active { transform: translate(4px,4px); box-shadow: 0 0 0 var(--ink) }
+.btn.primary { background: var(--sun); color: var(--on-color) }
+
+.rules { border: var(--border); border-radius: 18px; background: var(--card); padding: 24px; display: grid; gap: 14px }
+.rules ol { margin: 0; padding-left: 22px; display: grid; gap: 10px }
+.rules b { display: block }
+
+.example-note { border: 2px dashed var(--ink); border-radius: 14px; padding: 12px 16px; font-weight: 600; background: var(--paper) }
+
+.rungs { display: grid; gap: 24px; list-style: none; margin: 0; padding: 0 }
+.rung { border: var(--border); border-radius: 18px; background: var(--card); padding: 24px; display: grid; gap: 16px; min-width: 0 }
+.rung-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap }
+.rung-n { font-weight: 700; font-size: 15px; display: block; margin-bottom: 6px }
+.rung .focus { color: var(--soft) }
+.state { font-weight: 700; font-size: 14px; padding: 5px 12px; border: 2px solid var(--ink); border-radius: 999px; white-space: nowrap; background: var(--paper) }
+.rung[data-state="met"] { background: var(--sun); color: var(--on-color); box-shadow: var(--pop) }
+.rung[data-state="met"] .focus, .rung[data-state="met"] .crit small { color: var(--on-color) }
+.rung[data-state="met"] .state { background: var(--on-color); color: #fff; border-color: var(--on-color) }
+.rung[data-state="passed"] { border-style: dashed; background: var(--paper) }
+.rung[data-state="half"] { border-style: solid; box-shadow: 6px 6px 0 var(--pink) }
+.rung[data-state="half"] .state { background: var(--pink); color: var(--on-color) }
+
+.crits { display: grid; gap: 10px; list-style: none; margin: 0; padding: 0 }
+.crit label { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; cursor: pointer; padding: 10px 12px; border: 2px solid transparent; border-radius: 12px }
+.crit label:hover { border-color: var(--ink) }
+.crit input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--ink) }
+.crit small { display: block; color: var(--soft); font-size: 14px; margin-top: 2px }
+.ev label { font-weight: 700; font-size: 15px; display: block; margin-bottom: 6px }
+textarea { width: 100%; min-height: 84px; resize: vertical; font: 16px/1.45 var(--font); color: var(--ink); background: var(--paper);
+  border: 2px solid var(--ink); border-radius: 12px; padding: 10px 12px }
+.rung[data-state="met"] textarea { background: #fff8d6; color: #111; border-color: #111 }
+
+.result { border: var(--border); border-radius: 18px; background: var(--pink); color: var(--on-color); box-shadow: 8px 8px 0 var(--ink); padding: 28px; display: grid; gap: 16px }
+.verdict { font-size: clamp(30px, 4.6vw, 48px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05 }
+.result .why { font-size: 18px; max-width: 60ch }
+.result label { font-weight: 700; display: block; margin-bottom: 6px }
+.result textarea { background: #fff; color: #111; border-color: #111; min-height: 64px }
+.result .btn { background: #fff; color: #111; border-color: #111; box-shadow: 4px 4px 0 #111 }
+.result .btn.primary { background: var(--sun) }
+#copy-status { font-weight: 700; min-height: 1.5em }
+#summary { width: 100%; min-height: 200px; font-size: 14px }
+.foot { color: var(--soft); font-size: 15px }
+.back { font-weight: 700; text-decoration: none; justify-self: start; border-bottom: 2px solid var(--ink) }
+.ai-way { border: var(--border); border-radius: 18px; background: var(--mint); color: var(--on-color); box-shadow: var(--pop); padding: 24px; display: grid; gap: 16px; min-width: 0 }
+.ai-head { display: grid; gap: 10px }
+.ai-head p { max-width: 64ch }
+.prompt { margin: 0; background: #fff; color: #111; border: 2px solid #111; border-radius: 12px; padding: 14px 16px; max-height: 300px; overflow: auto;
+  white-space: pre-wrap; word-break: break-word; font: 14px/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace }
+.ai-way .btn { border-color: #111; box-shadow: 4px 4px 0 #111 }
+.ai-way .tools { align-items: center }
+#prompt-status { font-weight: 700 }
+@media (prefers-reduced-motion: reduce) { .btn { transition: none } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<main>
+  <a class="back" href="/#level">← Back to Lea's portfolio</a>
+  <header class="intro">
+    <h1>Agentic Ladder Self-Check</h1>
+    <p class="lede">Grade yourself on the four levels of agentic coding. Tick only what you can back with real work, write down the evidence, then copy your result and send it back.</p>
+    <p class="credit">The ladder is the "Agentic Coding Proficiency Journey" from <a href="https://lnkd.in/p/gFze7Riq" target="_blank" rel="noopener">a 15-minute talk by two Senior Staff Engineers at Airbnb ↗</a>. Lea graded herself with it first. <a href="/#level">See her result</a>.</p>
+    <div class="tools">
+      <button class="btn" id="load-example" type="button">See Lea's answers as an example</button>
+      <button class="btn" id="reset" type="button">Start fresh</button>
+    </div>
+    <p class="example-note" id="example-note" hidden>You're looking at Lea's example answers. Press "Start fresh" to grade yourself.</p>
+  </header>
+
+  <section class="rules" aria-labelledby="rules-h">
+    <h2 id="rules-h">How to grade honestly</h2>
+    <ol>
+      <li><b>Count only what you touched.</b>Your own commits and decisions. Keep them apart from the commits your agents made under your name.</li>
+      <li><b>Don't count other people's work.</b>Not your teammates', and not your agents', even inside tools you use every day.</li>
+      <li><b>Let an AI take the first pass, then correct it.</b>It will over-credit you. Lea corrected hers twice, and both corrections lowered the score.</li>
+      <li><b>A level counts when every box is ticked.</b>Some boxes on the next level means one foot in it, not the level.</li>
+    </ol>
+  </section>
+
+  <section class="ai-way" aria-labelledby="ai-h">
+    <div class="ai-head">
+      <h2 id="ai-h">Rather have your AI do it?</h2>
+      <p>Paste this prompt into Claude Code, Cursor, ChatGPT or whatever you use. In a coding agent, run it inside your main repo so it can read your git history. It grades you on the same ladder and rules, asks for what it can't see, and ends with a result in the same format as the form below.</p>
+    </div>
+    <pre class="prompt" id="prompt" tabindex="0" aria-label="Ready-to-paste prompt"></pre>
+    <div class="tools">
+      <button class="btn primary" id="copy-prompt" type="button">Copy prompt</button>
+      <p id="prompt-status" role="status"></p>
+    </div>
+  </section>
+
+  <ol class="rungs" id="rungs" aria-label="The four levels"></ol>
+
+  <section class="result" aria-labelledby="result-h" aria-live="polite">
+    <h2 id="result-h">Your result</h2>
+    <p class="verdict" id="verdict">Not graded yet</p>
+    <p class="why" id="why">Tick the boxes above. Your level updates as you go.</p>
+    <div>
+      <label for="next">Your next rung</label>
+      <textarea id="next" placeholder="One concrete thing you'll do to climb. Lea's: build one small MCP server for a real team pain point."></textarea>
+    </div>
+    <div class="tools">
+      <button class="btn primary" id="copy" type="button">Copy my result</button>
+    </div>
+    <p id="copy-status" role="status"></p>
+    <textarea id="summary" aria-label="Your result as text" readonly hidden></textarea>
+  </section>
+
+  <p class="foot">Your answers stay in this browser only. Nobody else can see them until you copy and send your result.</p>
+</main>
+</div>
+
+<script src="/ladder.js"></script>
+<script>
+
+const LEA = {
+  checks: [[1,1],[1,1,1],[1,1,1,1],[0,1,1]],
+  evidence: [
+    'Past this level.',
+    'Past this level.',
+    'Coding agents run on auto-approval inside a review gate: two independent reviewer agents must both pass before anything is pushed. Several agents run in parallel, each in its own git worktree. A big model does the main work; small, cheap models do wide review sweeps. On my main project the agent made ~390 commits to my ~120. I adapted two agent runners across ~250 commits.',
+    'No custom MCP server yet. I lead a team\'s shift to agents through decisions: who reviews and merges whose PRs, how QA hands off to agents, specs for team bots. I built a "tech lead" agent from scratch (82 of 82 commits mine) that reviews a team\'s PRs and runs in shadow mode before it\'s trusted to merge.',
+  ],
+  next: 'Build one small MCP server for a real team pain point, instead of having each agent scrape the same APIs separately.',
+};
+
+const KEY = 'agentic-ladder-v1';
+const rungsEl = document.getElementById('rungs');
+let exampleMode = false;
+
+LEVELS.forEach((lv, li) => {
+  const item = document.createElement('li');
+  item.className = 'rung';
+  item.id = 'level' + (li + 1);
+  item.innerHTML = `
+    <div class="rung-top">
+      <div><span class="rung-n">Level ${li + 1}</span><h3>${lv.name}</h3></div>
+      <span class="state" id="state${li}">Not yet</span>
+    </div>
+    <p class="focus">${lv.desc} Focus: ${lv.focus.toLowerCase()}.</p>
+    <ul class="crits">${lv.crits.map((c, ci) => `
+      <li class="crit"><label for="c${li}-${ci}"><input type="checkbox" id="c${li}-${ci}" data-l="${li}" data-c="${ci}"><span>${c[0]}${c[1] ? `<small>${c[1]}</small>` : ''}</span></label></li>`).join('')}
+    </ul>
+    <div class="ev"><label for="ev${li}">Your evidence</label>
+      <textarea id="ev${li}" data-l="${li}" placeholder="What did you actually do? Numbers if you have them."></textarea></div>`;
+  rungsEl.appendChild(item);
+});
+
+const boxes = [...document.querySelectorAll('.crit input')];
+const evs = LEVELS.map((_, i) => document.getElementById('ev' + i));
+const nextEl = document.getElementById('next');
+
+function counts() {
+  return LEVELS.map((lv, li) => lv.crits.filter((_, ci) => document.getElementById(`c${li}-${ci}`).checked).length);
+}
+
+function grade() {
+  const c = counts();
+  let full = 0;
+  for (let i = 0; i < LEVELS.length; i++) { if (c[i] === LEVELS[i].crits.length) full = i + 1; else break; }
+  const nextIdx = full;
+  const partial = nextIdx < LEVELS.length && c[nextIdx] > 0;
+  return { c, full, partial, nextIdx };
+}
+
+function render() {
+  const { c, full, partial, nextIdx } = grade();
+  LEVELS.forEach((lv, i) => {
+    const el = document.getElementById('level' + (i + 1));
+    const st = document.getElementById('state' + i);
+    if (i < full - 1) { el.dataset.state = 'passed'; st.textContent = 'Passed'; }
+    else if (i === full - 1) { el.dataset.state = 'met'; st.textContent = "You're here"; }
+    else if (c[i] > 0) { el.dataset.state = 'half'; st.textContent = `Partly: ${c[i]} of ${lv.crits.length}`; }
+    else { el.dataset.state = ''; st.textContent = 'Not yet'; }
+  });
+  const v = document.getElementById('verdict'), w = document.getElementById('why');
+  if (full === 0 && !c.some(n => n)) { v.textContent = 'Not graded yet'; w.textContent = 'Tick the boxes above. Your level updates as you go.'; return; }
+  if (full === 0) { v.textContent = 'On the way to Level 1'; w.textContent = 'Tick every box on a level for it to count.'; return; }
+  v.textContent = partial ? `Level ${full}, with one foot in Level ${nextIdx + 1}.` : `Level ${full}.`;
+  if (full === LEVELS.length) w.textContent = 'Every box ticked. Make sure your evidence would convince a skeptical reviewer.';
+  else {
+    const missing = LEVELS[nextIdx].crits.filter((_, ci) => !document.getElementById(`c${nextIdx}-${ci}`).checked).map(x => x[0].replace(/\.$/, ''));
+    w.textContent = `To claim Level ${nextIdx + 1}, you still need: ` + missing.map(m => '“' + m + '”').join(', ') + '.';
+  }
+}
+
+function snapshot() { return { checks: boxes.map(b => b.checked), evidence: evs.map(e => e.value), next: nextEl.value }; }
+function save() { if (exampleMode) return; try { localStorage.setItem(KEY, JSON.stringify(snapshot())); } catch (e) {} }
+function apply(s) {
+  boxes.forEach((b, i) => { b.checked = !!(s.checks && s.checks[i]); });
+  evs.forEach((e, i) => { e.value = (s.evidence && s.evidence[i]) || ''; });
+  nextEl.value = s.next || '';
+  render();
+}
+
+document.addEventListener('input', e => {
+  if (e.target.matches('.crit input, .ev textarea, #next')) {
+    if (exampleMode) { exampleMode = false; document.getElementById('example-note').hidden = true; }
+    render(); save();
+  }
+});
+document.getElementById('load-example').addEventListener('click', () => {
+  exampleMode = true;
+  apply({ checks: LEA.checks.flat().map(Boolean), evidence: LEA.evidence, next: LEA.next });
+  document.getElementById('example-note').hidden = false;
+});
+document.getElementById('reset').addEventListener('click', () => {
+  exampleMode = false; document.getElementById('example-note').hidden = true;
+  apply({}); try { localStorage.removeItem(KEY); } catch (e) {}
+});
+
+function summaryText() {
+  const { c } = grade();
+  const lines = ['My agentic ladder self-check', document.getElementById('verdict').textContent, ''];
+  LEVELS.forEach((lv, li) => {
+    lines.push(`Level ${li + 1}, ${lv.name}: ${c[li]} of ${lv.crits.length}`);
+    lv.crits.forEach((cr, ci) => lines.push(`  [${document.getElementById(`c${li}-${ci}`).checked ? 'x' : ' '}] ${cr[0]}`));
+    if (evs[li].value.trim()) lines.push('  Evidence: ' + evs[li].value.trim());
+  });
+  if (nextEl.value.trim()) lines.push('', 'Next rung: ' + nextEl.value.trim());
+  lines.push('', 'Ladder: "Agentic Coding Proficiency Journey" (https://lnkd.in/p/gFze7Riq)');
+  return lines.join('\n');
+}
+document.getElementById('copy').addEventListener('click', () => {
+  const text = summaryText(), status = document.getElementById('copy-status'), area = document.getElementById('summary');
+  const fallback = () => { area.value = text; area.hidden = false; area.focus(); area.select(); status.textContent = "Couldn't copy automatically. The text is selected below, so copy it yourself."; };
+  try {
+    navigator.clipboard.writeText(text).then(() => { area.hidden = true; status.textContent = 'Copied. Paste it into a message.'; }, fallback);
+  } catch (e) { fallback(); }
+});
+
+const promptText = buildPrompt();
+document.getElementById('prompt').textContent = promptText;
+document.getElementById('copy-prompt').addEventListener('click', () => {
+  const status = document.getElementById('prompt-status'), pre = document.getElementById('prompt');
+  const fallback = () => { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); status.textContent = "Couldn't copy automatically. The prompt is selected, so copy it yourself."; };
+  try { navigator.clipboard.writeText(promptText).then(() => { status.textContent = 'Copied. Paste it into your AI tool.'; }, fallback); } catch (e) { fallback(); }
+});
+
+let saved = null;
+try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+if (saved) apply(saved); else render();
+</script>
+</body>
+</html>
