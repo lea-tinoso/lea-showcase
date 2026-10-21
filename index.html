@@ -98,11 +98,12 @@ p { margin: 0 }
 .tab { font: 700 16px/1 var(--body); padding: 12px 18px; border: 3px solid #111; border-bottom: 0; border-radius: 14px 14px 0 0;
   background: #fff8d6; color: #111; cursor: pointer }
 .tab[aria-selected="true"] { background: #fff; }
-.panel { background: #fff; border: 3px solid #111; box-shadow: 8px 8px 0 #111; padding: 26px; border-radius: 0 14px 14px 14px; min-height: 320px }
+.panel { background: #fff; color: #111; border: 3px solid #111; box-shadow: 8px 8px 0 #111; padding: 26px; border-radius: 0 14px 14px 14px; min-height: 320px }
 .panel blockquote { margin: 0; font-size: 18px; line-height: 1.5 }
 .panel blockquote footer { margin-top: 14px; font-size: 14px; color: #4a4a46 }
 .panel ol, .panel ul { margin: 0; padding-left: 22px; display: grid; gap: 12px }
 .panel li b { display: block }
+.panel li a { font-weight: 700; color: #111 }
 
 /* work */
 .work { padding-block: 96px 0 }
@@ -111,6 +112,28 @@ p { margin: 0 }
 .card .where { align-self: flex-start; font-weight: 700; font-size: 14px; padding: 4px 12px; border: 2px solid var(--ink); border-radius: 999px; background: var(--pink); color: #111 }
 .card:nth-child(2) .where { background: var(--sun) } .card:nth-child(3) .where { background: var(--mint); color: #fff } .card:nth-child(4) .where { background: var(--paper); color: var(--ink) }
 .card p { color: var(--soft) }
+
+/* level */
+.level { padding-block: 96px 0 }
+.level-h { margin-bottom: 28px; max-width: 16ch }
+.verdict { font: 800 clamp(28px, 3.4vw, 44px)/1.05 var(--display); letter-spacing: -0.03em; text-wrap: balance }
+.verdict-why { margin-top: 10px; color: var(--soft); max-width: 62ch }
+.ladder { list-style: none; padding: 0; margin: 36px 0 18px; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 20px }
+.rung { border: var(--border); border-radius: 18px; background: var(--card); padding: 20px; display: flex; flex-direction: column; gap: 10px; min-width: 0 }
+.rung h3 { font-size: 22px }
+.rung p { color: var(--soft); font-size: 15px }
+.rung-n { font-weight: 700; font-size: 14px }
+.rung-state { margin-top: auto; align-self: flex-start; font-weight: 700; font-size: 14px; padding: 4px 12px; border: 2px solid var(--ink); border-radius: 999px }
+.rung.passed { border-style: dashed; background: var(--paper) }
+.rung.passed .rung-state { background: var(--paper); color: var(--soft); border-color: var(--soft) }
+.rung.here { background: var(--sun); color: #111; box-shadow: var(--pop); transform: translateY(-6px) }
+.rung.here p { color: #111 }
+.rung.here .rung-state { background: #111; color: #fff; border-color: #111 }
+.rung.half .rung-state { background: var(--pink); color: #111 }
+.level-tabs .panel { min-height: 0 }
+.ladder-credit { font-size: 15px; color: var(--soft); margin-bottom: 44px }
+.ladder-credit a { color: var(--ink); font-weight: 600 }
+.next-rung { margin-top: 40px; font-size: clamp(19px, 1.8vw, 23px); font-weight: 600; max-width: 60ch }
 
 /* about */
 .about { padding-block: 96px }
@@ -137,6 +160,7 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
 @media (max-width: 900px) {
   .steps { grid-template-columns: repeat(2, minmax(0,1fr)) }
   .case-grid, .about-grid, .process-head { grid-template-columns: 1fr }
+  .ladder { grid-template-columns: repeat(2, minmax(0,1fr)) }
 }
 @media (max-width: 620px) {
   .nav { display: none }
@@ -144,8 +168,10 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
   .name.first, .name.last { justify-self: center; padding: 0; font-size: 22vw }
   .name.first { order: 0 } .portrait { order: 1; margin: 44px 0 18px; width: 70vw } .name.last { order: 2 }
   .lede { order: 3; margin-top: 28px }
-  .steps, .cases { grid-template-columns: 1fr }
+  .steps, .cases, .ladder { grid-template-columns: 1fr }
+  .rung.here { transform: none }
   .process, .case, .about { padding-block: 64px }
+  .level { padding-block: 64px 0 }
 }
 @media (prefers-reduced-motion: reduce) { .btn, .note { transition: none } }
 </style>
@@ -159,6 +185,7 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
       <a href="#process">Process</a>
       <a href="#case">Case file</a>
       <a href="#work">Work</a>
+      <a href="#level">Level</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -302,6 +329,73 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
   </div>
 </section>
 
+<section class="level wrap" id="level" aria-labelledby="level-h">
+  <div class="inner">
+    <h2 id="level-h" class="level-h">Where I am on the agentic ladder</h2>
+    <p class="verdict">Level 3, with one foot in Level 4.</p>
+    <p class="verdict-why">I lead a team's shift to agents and I built my own agent system. But I haven't built a custom MCP server yet, so I'm not claiming Level 4.</p>
+    <p class="verdict-why">I graded myself, and I only counted commits I actually touched.</p>
+    <ol class="ladder" aria-label="Agentic coding proficiency levels">
+      <li class="rung passed">
+        <span class="rung-n">Level 1</span>
+        <h3>The First Steps</h3>
+        <p>Basic AI use: autocomplete and chat. Focus: getting started.</p>
+        <span class="rung-state">Passed</span>
+      </li>
+      <li class="rung passed">
+        <span class="rung-n">Level 2</span>
+        <h3>The Agentic Learner</h3>
+        <p>Agentic tools with manual approval, better prompts and configs. Focus: learning and safe adoption.</p>
+        <span class="rung-state">Passed</span>
+      </li>
+      <li class="rung here" aria-current="step">
+        <span class="rung-n">Level 3</span>
+        <h3>The Advanced Practitioner</h3>
+        <p>Auto-approval, parallel workflows, multiple models. Focus: efficiency and customization.</p>
+        <span class="rung-state">I'm here</span>
+      </li>
+      <li class="rung half">
+        <span class="rung-n">Level 4</span>
+        <h3>The Pioneer</h3>
+        <p>Custom MCPs and leading team transformation. Focus: innovation and leadership.</p>
+        <span class="rung-state">Half: leadership yes, MCPs not yet</span>
+      </li>
+    </ol>
+    <p class="ladder-credit">The ladder is the "Agentic Coding Proficiency Journey" from <a href="https://lnkd.in/p/gFze7Riq" target="_blank" rel="noopener">a 15-minute talk by two Senior Staff Engineers at Airbnb <span aria-hidden="true">↗</span></a></p>
+    <div class="level-tabs">
+      <div class="tabs" role="tablist" aria-label="Level self-assessment">
+        <button class="tab" role="tab" id="t-ev" aria-controls="p-ev" aria-selected="true">The evidence</button>
+        <button class="tab" role="tab" id="t-not" aria-controls="p-not" aria-selected="false" tabindex="-1">What I'm not (yet)</button>
+        <button class="tab" role="tab" id="t-how" aria-controls="p-how" aria-selected="false" tabindex="-1">How I graded it</button>
+      </div>
+      <div class="panel" role="tabpanel" id="p-ev" aria-labelledby="t-ev" tabindex="0">
+        <ul>
+          <li><b>Auto-approval inside a review gate.</b>I run coding agents on auto-approval inside a review gate, not in place of one. Two independent reviewer agents must both pass before anything is pushed.</li>
+          <li><b>Parallel agents, models picked by cost.</b>I run several agents in parallel, each in its own git worktree. A big model does the main work; small, cheap models do wide review sweeps.</li>
+          <li><b>About 3× more agent commits than mine.</b>On my main project my coding agent has made ~390 commits to my ~120. My job has shifted from writing code to setting the guardrails it runs inside.</li>
+          <li><b>Two agent runners, bent to my workflow.</b>I adapted two runners I didn't originally write, across ~250 commits: ticket limits per day, a hand-off when the agent refuses a task, and a draft-PR flow.</li>
+          <li><b>A "tech lead" agent, built from scratch.</b>82 of 82 commits are mine. It watches a team's pull requests, posts reviews, runs in shadow mode before it's trusted to merge, and has a nightly loop that proposes improvements to its own rules. <a href="https://github.com/lea-tinoso/tech-lead-bot" target="_blank" rel="noopener">See the repo <span aria-hidden="true">↗</span></a></li>
+        </ul>
+      </div>
+      <div class="panel" role="tabpanel" id="p-not" aria-labelledby="t-not" tabindex="0" hidden>
+        <ul>
+          <li><b>No custom MCP server yet.</b>The ones I use are shared or third-party.</li>
+          <li><b>A user of the team skills library, not a contributor.</b>I use a shared library of agent skills but have 0 commits there.</li>
+          <li><b>My leadership evidence is decisions, not code.</b>Who reviews and merges whose PRs, how QA hands off to agents, and specs for team bots that others build.</li>
+        </ul>
+      </div>
+      <div class="panel" role="tabpanel" id="p-how" aria-labelledby="t-how" tabindex="0" hidden>
+        <ul>
+          <li><b>Only my own commits.</b>I counted commits authored by me and separated them from the commits my agents made under my identity.</li>
+          <li><b>Nothing my agents or teammates wrote.</b>Not even inside tools I use every day.</li>
+          <li><b>Claude went first, then I corrected it twice.</b>It had credited me for skills I never touched, and for creating bots I'd only adapted. Both corrections lowered the score. That's the point.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="next-rung"><b>Next rung:</b> build one small MCP server for a real team pain point, instead of having each agent scrape the same APIs separately.</p>
+  </div>
+</section>
+
 <section class="about wrap" id="about">
   <div class="inner about-grid">
     <div>
@@ -339,20 +433,25 @@ footer.big small { display: block; margin-top: 20px; font-size: 14px; opacity: .
 </footer>
 
 <script>
-const tabs = [...document.querySelectorAll('.tab')];
-function select(t) {
-  tabs.forEach(x => {
-    const on = x === t;
-    x.setAttribute('aria-selected', on);
-    x.tabIndex = on ? 0 : -1;
-    document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
-  });
-}
-tabs.forEach((t, i) => {
-  t.addEventListener('click', () => select(t));
-  t.addEventListener('keydown', e => {
-    const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-    if (d) { const n = tabs[(i + d + tabs.length) % tabs.length]; select(n); n.focus(); }
+// Each tablist (case file, level) manages only its own tabs and panels.
+document.querySelectorAll('[role="tablist"]').forEach(list => {
+  const tabs = [...list.querySelectorAll('[role="tab"]')];
+  function select(t) {
+    tabs.forEach(x => {
+      const on = x === t;
+      x.setAttribute('aria-selected', on);
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    t.addEventListener('keydown', e => {
+      const n = e.key === 'ArrowRight' ? tabs[(i + 1) % tabs.length]
+        : e.key === 'ArrowLeft' ? tabs[(i - 1 + tabs.length) % tabs.length]
+        : e.key === 'Home' ? tabs[0] : e.key === 'End' ? tabs[tabs.length - 1] : null;
+      if (n) { e.preventDefault(); select(n); n.focus(); }
+    });
   });
 });
 </script>
